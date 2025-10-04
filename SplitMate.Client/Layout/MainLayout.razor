@@ -1,0 +1,32 @@
+﻿@using System.Reflection
+@inherits LayoutComponentBase
+<MudThemeProvider Theme="_currentTheme" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+	<MudAppBar Elevation="1">
+		<MudIcon Class="page-logo" Icon="@Icons.Material.Filled.Policy" />
+		<MudText Typo="Typo.h5" Class="ml-3">SplitMate (@Assembly.GetExecutingAssembly().GetName().Version?.ToString(3))</MudText>
+		<MudSpacer />
+	</MudAppBar>
+		<MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+		<MudDivider Style="flex-grow: 0" />
+		<NavMenu />
+	</MudDrawer>
+	<MudMainContent>
+		<MudToolBar>
+			<MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" OnClick="@((e) => DrawerToggle())" Class="ml-3" />
+		</MudToolBar>
+		<MudContainer MaxWidth="MaxWidth.False" Class="mt-4">
+			@Body
+		</MudContainer>
+	</MudMainContent>
+</MudLayout>
+
+<div id="blazor-error-ui">
+	An unhandled error has occurred.
+	<a href="" class="reload">Reload</a>
+	<a class="dismiss">🗙</a>
+</div>

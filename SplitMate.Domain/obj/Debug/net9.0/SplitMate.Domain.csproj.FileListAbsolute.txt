@@ -1,0 +1,15 @@
+F:\Projects\SplitMate\SplitMate.Domain\bin\Debug\net9.0\SplitMate.Domain.deps.json
+F:\Projects\SplitMate\SplitMate.Domain\bin\Debug\net9.0\SplitMate.Domain.dll
+F:\Projects\SplitMate\SplitMate.Domain\bin\Debug\net9.0\SplitMate.Domain.pdb
+F:\Projects\SplitMate\SplitMate.Domain\bin\Debug\net9.0\SplitMate.Shared.dll
+F:\Projects\SplitMate\SplitMate.Domain\bin\Debug\net9.0\SplitMate.Shared.pdb
+F:\Projects\SplitMate\SplitMate.Domain\obj\Debug\net9.0\SplitMate.Domain.csproj.AssemblyReference.cache
+F:\Projects\SplitMate\SplitMate.Domain\obj\Debug\net9.0\SplitMate.Domain.GeneratedMSBuildEditorConfig.editorconfig
+F:\Projects\SplitMate\SplitMate.Domain\obj\Debug\net9.0\SplitMate.Domain.AssemblyInfoInputs.cache
+F:\Projects\SplitMate\SplitMate.Domain\obj\Debug\net9.0\SplitMate.Domain.AssemblyInfo.cs
+F:\Projects\SplitMate\SplitMate.Domain\obj\Debug\net9.0\SplitMate.Domain.csproj.CoreCompileInputs.cache
+F:\Projects\SplitMate\SplitMate.Domain\obj\Debug\net9.0\SplitMat.FCA20BA3.Up2Date
+F:\Projects\SplitMate\SplitMate.Domain\obj\Debug\net9.0\SplitMate.Domain.dll
+F:\Projects\SplitMate\SplitMate.Domain\obj\Debug\net9.0\refint\SplitMate.Domain.dll
+F:\Projects\SplitMate\SplitMate.Domain\obj\Debug\net9.0\SplitMate.Domain.pdb
+F:\Projects\SplitMate\SplitMate.Domain\obj\Debug\net9.0\ref\SplitMate.Domain.dll

@@ -1,0 +1,37 @@
+﻿@page "/users"
+@using MudBlazor;
+
+<PageTitle>Users</PageTitle>
+
+<MudTable @ref="@table" T=UserListViewModel Items="@users" Bordered="false" Hover="true" Dense="true" Loading="@isLoading" Filter="new Func<UserListViewModel, bool>(Filter)"
+          CanCancelEdit="true" CommitEditTooltip="Zapisz" CancelEditTooltip="Anuluj"
+          RowEditCancel="CancelAddingUser"
+          RowEditCommit="SaveNewUser"
+          IsEditRowSwitchingBlocked="true"
+          RowEditableFunc="@(x=> !x.Id.HasValue)"
+          ApplyButtonPosition="TableApplyButtonPosition.End"
+          EditTrigger="TableEditTrigger.RowClick">
+      <ToolBarContent>
+            <MudButton Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="AddNewUser">Dodaj</MudButton>
+        <MudSpacer />
+        <MudTextField @bind-Value="filterContent" Placeholder="Wyszukaj" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" />
+    </ToolBarContent>
+    <ColGroup>
+        <col />
+    </ColGroup>
+    <HeaderContent>
+        <MudTh>Nazwa</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Nazwa">
+            @context.Name
+        </MudTd>
+    </RowTemplate>
+    <RowEditingTemplate>
+        <MudTd DataLabel="Nazwa">
+            <MudStack Row="true">
+                <MudTextField Label="Nazwa" @bind-Value="@context.Name" For="() => context.Name" />
+            </MudStack>
+        </MudTd>
+    </RowEditingTemplate>
+</MudTable>
