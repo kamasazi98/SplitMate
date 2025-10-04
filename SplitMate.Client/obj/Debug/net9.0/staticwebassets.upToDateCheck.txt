@@ -1,4 +1,0 @@
-F:\Projects\SplitMate\SplitMate.Client\wwwroot\appsettings.json
-F:\Projects\SplitMate\SplitMate.Client\wwwroot\appsettings.Development.json
-wwwroot\appsettings.Development.json
-wwwroot\appsettings.json
