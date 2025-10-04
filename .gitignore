@@ -54,3 +54,19 @@ dkms.conf
 # debug information files
 *.dwo
 .vs/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build folders
+bin/
+obj/
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
