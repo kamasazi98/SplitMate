@@ -1,0 +1,55 @@
+﻿@page "/shopping-lists/new"
+
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+
+@if(isLoading)
+{
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+}
+else
+{
+    <MudText Typo="Typo.h4" GutterBottom="true">Utwórz nową listę zakupów</MudText>
+    <MudText Class="mb-4">Wypełnij podstawowe dane, aby utworzyć nową listę.</MudText>
+
+    <MudForm Model="@createModel" @ref="createForm">
+        <MudCard Elevation="2">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Dane Listy</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudGrid>
+                    <MudItem xs="12" sm="8">
+                        <MudTextField @bind-Value="createModel.Name"
+                                      For="@(() => createModel.Name)"
+                                      Label="Nazwa listy"
+                                      Variant="Variant.Outlined" />
+                    </MudItem>
+                    <MudItem xs="12" sm="4">
+                        <MudSelect T="int?" @bind-Value="createModel.DoneByUserId"
+                                   For="@(() => createModel.DoneByUserId)"
+                                   Label="Utworzone przez"
+                                   Variant="Variant.Outlined">
+                            @foreach (var user in users)
+                            {
+                                <MudSelectItem T="int?" Value="@user.Id">@user.Name</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                </MudGrid>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Button"
+                           Variant="Variant.Filled"
+                           Color="Color.Success"
+                           Class="ml-auto"
+                           OnClick="HandleCreateListAsync">
+                    Utwórz
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudForm>
+}

@@ -37,7 +37,7 @@ else
             <MudTd DataLabel="Suma">@context.SumValue.ToString("C")</MudTd>
             <MudTd DataLabel="Data utworzenia">@context.CreateDate.ToString("yyyy-MM-dd HH:mm")</MudTd>
             <MudTd DataLabel="Utworzone przez">@context.DoneByUserName</MudTd>
-            <MudTd DataLabel="Rozliczone" Style="text-align:center">
+            <MudTd DataLabel="Rozliczone" >
                 <MudIcon Icon="@(@context.IsSettled? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Cancel)"
                          Title="@(@context.IsSettled ? "Tak" : "Nie")" />
             </MudTd>

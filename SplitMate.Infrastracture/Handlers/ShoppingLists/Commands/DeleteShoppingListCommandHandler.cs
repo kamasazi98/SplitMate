@@ -14,7 +14,7 @@ namespace SplitMate.Infrastracture.Handlers.ShoppingLists.Commands
 
 		public async Task<IResult> Handle(DeleteShoppingListCommand request, CancellationToken cancellationToken)
 		{
-			var shoppingList = await applicationDbContext.ShoppingLists.Include(x => x.Items).FirstOrDefaultAsync(cancellationToken);
+			var shoppingList = await applicationDbContext.ShoppingLists.Include(x => x.Items).FirstOrDefaultAsync(x => x.Id == request.ShoppingListId, cancellationToken);
 			if (shoppingList == null)
 				return this.Fail(ErrorCode.NOT_FOUND);
 

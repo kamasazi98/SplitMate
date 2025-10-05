@@ -73,7 +73,7 @@ namespace SplitMate.Client.Pages
 
 		private void ShowDetails(int id)
 		{
-			NavigationManager.NavigateTo($"/shopping-lists/{id}");
+			NavigationManager.NavigateTo($"/shopping-lists/details/{id}");
 		}
 	}
 }
