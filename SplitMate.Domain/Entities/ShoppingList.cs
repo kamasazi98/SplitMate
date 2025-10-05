@@ -5,7 +5,7 @@ namespace SplitMate.Domain.Entities
 	{
 		public int Id { get; set; }
 		public string? Name { get; set; }
-		public decimal SumValue { get; set; }
+		public decimal SumValue => Items.Sum(x => x.Value);
 		public DateTime CreateDate { get; set; }
 		public bool IsSettled { get; set; }
 

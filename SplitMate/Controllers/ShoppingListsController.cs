@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SplitMate.Extensions;
+using SplitMate.Shared;
 using SplitMate.Shared.Features.ShoppingList.Commands;
 using SplitMate.Shared.Features.ShoppingList.Queries;
 
@@ -25,6 +26,19 @@ namespace SplitMate.Controllers
 					};
 				});
 		}
+		[HttpGet("NotSettled")]
+		public Task<IActionResult> GetNotSettledShoppingLists()
+		{
+			return this.ResolveResult(
+				resultTask: mediator.Send(new RetrieveAllNotSettledShoppingListQuery()),
+				onFailure: (data, error) =>
+				{
+					return error switch
+					{
+						_ => BadRequest(data)
+					};
+				});
+		}
 
 		[HttpGet("{shoppingListId:int}")]
 		public Task<IActionResult> GetShoppingList(int shoppingListId)
@@ -35,6 +49,7 @@ namespace SplitMate.Controllers
 				{
 					return error switch
 					{
+						ErrorCode.NOT_FOUND => NotFound(data),
 						_ => BadRequest(data)
 					};
 				});
@@ -49,6 +64,7 @@ namespace SplitMate.Controllers
 				{
 					return error switch
 					{
+						ErrorCode.NOT_FOUND => NotFound(data),
 						_ => BadRequest(data)
 					};
 				});
@@ -63,6 +79,7 @@ namespace SplitMate.Controllers
 				{
 					return error switch
 					{
+						ErrorCode.NOT_FOUND => NotFound(data),
 						_ => BadRequest(data)
 					};
 				});
@@ -77,6 +94,8 @@ namespace SplitMate.Controllers
 				{
 					return error switch
 					{
+						ErrorCode.NOT_FOUND => NotFound(data),
+						ErrorCode.SHOPPING_LIST_ITEM_CANNOT_PROCESS_ENTITY => UnprocessableEntity(data),
 						_ => BadRequest(data)
 					};
 				});
@@ -91,6 +110,9 @@ namespace SplitMate.Controllers
 				{
 					return error switch
 					{
+						ErrorCode.NOT_FOUND => NotFound(data),
+						ErrorCode.SHOPPING_LIST_ITEM_NOT_FOUND => NotFound(data),
+						ErrorCode.SHOPPING_LIST_ITEM_CANNOT_PROCESS_ENTITY => UnprocessableEntity(data),
 						_ => BadRequest(data)
 					};
 				});
@@ -105,6 +127,8 @@ namespace SplitMate.Controllers
 				{
 					return error switch
 					{
+						ErrorCode.NOT_FOUND => NotFound(data),
+						ErrorCode.SHOPPING_LIST_ITEM_NOT_FOUND => NotFound(data),
 						_ => BadRequest(data)
 					};
 				});

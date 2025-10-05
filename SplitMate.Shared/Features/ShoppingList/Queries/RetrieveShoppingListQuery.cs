@@ -7,7 +7,7 @@ namespace SplitMate.Shared.Features.ShoppingList.Queries
 	{
 		public record Response(Response.ShoppingListAggregate ShoppingList)
 		{
-			public record ShoppingListAggregate(int Id, string? Name, decimal SumValue, DateTime CreateDate, string DoneByUserName, IReadOnlyList<ShoppingListItem> Items)
+			public record ShoppingListAggregate(int Id, string? Name, decimal SumValue, DateTime CreateDate, string DoneByUserName, bool IsSettled, IReadOnlyList<ShoppingListItem> Items)
 			{
 				public IReadOnlyList<ShoppingListItem> Items { get; init; } = Items ?? [];
 			}

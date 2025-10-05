@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using SplitMate.Infrastracture.Data;
 using SplitMate.Infrastracture.Extensions;
+using SplitMate.Shared;
 using SplitMate.Shared.Features.Users.Commands;
 using SplitMate.Shared.Wrappers;
 
@@ -14,7 +15,7 @@ namespace SplitMate.Infrastracture.Handlers.Users.Commands
 		{
 			var user = applicationDbContext.KnownUsers.FirstOrDefault(x => x.Name == request.Name);
 			if (user != null)
-				return this.Fail(409, "User already exists");
+				return this.Fail(ErrorCode.CONFLICT, "User already exists");
 
 			user = new()
 			{

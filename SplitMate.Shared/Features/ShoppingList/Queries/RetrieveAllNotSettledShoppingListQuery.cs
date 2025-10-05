@@ -3,7 +3,7 @@ using SplitMate.Shared.Wrappers;
 
 namespace SplitMate.Shared.Features.ShoppingList.Queries
 {
-	public record RetrieveAllShoppingListQuery() : IRequest<IResult<RetrieveAllShoppingListQuery.Response>>
+	public record RetrieveAllNotSettledShoppingListQuery() : IRequest<IResult<RetrieveAllNotSettledShoppingListQuery.Response>>
 	{
 		public record Response(IReadOnlyList<Response.ShoppingListItem> Shoppings)
 		{
