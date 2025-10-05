@@ -1,5 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 using SplitMate.Components;
+using SplitMate.Infrastracture;
+using SplitMate.Infrastracture.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +12,11 @@ builder.Services.AddRazorComponents()
 builder.Services.AddControllers();
 builder.Services.AddMudServices()
 	.AddServerSideBlazor();
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>
+{
+	opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+builder.Services.AddInfrastructureLayer();
 
 var app = builder.Build();
 
@@ -33,5 +41,6 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
 	.AddInteractiveWebAssemblyRenderMode()
 	.AddAdditionalAssemblies(typeof(SplitMate.Client._Imports).Assembly);
+app.MapControllers();
 
 app.Run();
