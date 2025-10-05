@@ -31,7 +31,8 @@ namespace SplitMate.Infrastracture.Handlers.ShoppingLists.Commands
 			if (itemAggregate.Type == ShoppingItemType.OnePerson)
 				user = await applicationDbContext.KnownUsers.FirstOrDefaultAsync(x => x.Id == itemAggregate.DesiredBy!.Id, cancellationToken);
 
-			specification.AddItem(new(itemAggregate.Value, itemAggregate.Name, itemAggregate.Type, user));
+			var addedItem = specification.AddItem(new(itemAggregate.Value, itemAggregate.Name, itemAggregate.Type, user));
+			await applicationDbContext.ShoppingItems.AddAsync(addedItem, cancellationToken);
 		}
 	}
 }

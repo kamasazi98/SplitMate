@@ -14,8 +14,8 @@ namespace SplitMate.Client.Managers
 			=> httpClientFactory.MainApiClient().GetAsync("/api/shoppingLists").ToApiResult<RetrieveAllShoppingListQuery.Response>();
 		public Task<ApiResult<RetrieveAllNotSettledShoppingListQuery.Response>> RetrieveAllNotSettled()
 			=> httpClientFactory.MainApiClient().GetAsync("/api/shoppingLists/NotSettled").ToApiResult<RetrieveAllNotSettledShoppingListQuery.Response>();
-		public Task<ApiResult<RetrieveShoppingListQuery.Response>> RetrieveAll(int shoppingListId)
-			=> httpClientFactory.MainApiClient().GetAsync($"/api/shoppingLists?shoppingListId={shoppingListId}").ToApiResult<RetrieveShoppingListQuery.Response>();
+		public Task<ApiResult<RetrieveShoppingListQuery.Response>> Retrieve(int shoppingListId)
+			=> httpClientFactory.MainApiClient().GetAsync($"/api/shoppingLists/{shoppingListId}").ToApiResult<RetrieveShoppingListQuery.Response>();
 
 		public Task<ApiResult<int>> AddNew(string? name, int doneByUserId)
 			=> httpClientFactory.MainApiClient().PostAsJsonAsync($"/api/shoppingLists", new AddNewShoppingListCommand(name, doneByUserId)).ToApiResult<int>();
@@ -31,6 +31,8 @@ namespace SplitMate.Client.Managers
 
 		public Task<ApiResult> DeleteItem(int shoppingListId, int shoppingListItemId)
 			=> httpClientFactory.MainApiClient().DeleteAsync($"/api/shoppingLists/{shoppingListId}/Item/{shoppingListItemId}").ToApiResult();
+		public Task<ApiResult> Delete(int shoppingListId)
+			=> httpClientFactory.MainApiClient().DeleteAsync($"/api/shoppingLists/{shoppingListId}").ToApiResult();
 	}
 
 	public interface IShoppingListManager : IManager
@@ -41,7 +43,8 @@ namespace SplitMate.Client.Managers
 		Task<ApiResult> DeleteItem(int shoppingListId, int shoppingListItemId);
 		Task<ApiResult> Import(int shoppingListId, List<ImportShoppingListItemsCommand.ItemAggregate> items);
 		Task<ApiResult<RetrieveAllShoppingListQuery.Response>> RetrieveAll();
-		Task<ApiResult<RetrieveShoppingListQuery.Response>> RetrieveAll(int shoppingListId);
+		Task<ApiResult<RetrieveShoppingListQuery.Response>> Retrieve(int shoppingListId);
 		Task<ApiResult<RetrieveAllNotSettledShoppingListQuery.Response>> RetrieveAllNotSettled();
+		Task<ApiResult> Delete(int shoppingListId);
 	}
 }

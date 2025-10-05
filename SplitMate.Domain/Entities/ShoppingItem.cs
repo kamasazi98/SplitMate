@@ -9,7 +9,7 @@ namespace SplitMate.Domain.Entities
 		public required string Name { get; set; }
 		public ShoppingItemType Type { get; set; }
 
-		public int UserId { get; private set; }
+		public int? UserId { get; private set; }
 		public User? User { get; set; }
 
 		public int ShoppingListId { get; private set; }

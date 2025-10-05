@@ -133,5 +133,19 @@ namespace SplitMate.Controllers
 					};
 				});
 		}
+		[HttpDelete("{shoppingListId:int}")]
+		public Task<IActionResult> Delete(int shoppingListId)
+		{
+			return this.ResolveResult(
+				resultTask: mediator.Send(new DeleteShoppingListCommand(shoppingListId)),
+				onFailure: (data, error) =>
+				{
+					return error switch
+					{
+						ErrorCode.NOT_FOUND => NotFound(data),
+						_ => BadRequest(data)
+					};
+				});
+		}
 	}
 }

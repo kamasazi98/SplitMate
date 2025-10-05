@@ -1,0 +1,156 @@
+﻿@page "/shopping-lists/new"
+@page "/shopping-lists/edit/{ShoppingListId:int}"
+
+@using System.ComponentModel.DataAnnotations
+@using MudBlazor
+@using SplitMate.Shared;
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+<MudText Typo="Typo.h4" GutterBottom="true">
+    @(_isEditMode ? "Edytuj listę Zakupów" : "Utwórz nową listę zakupów")
+</MudText>
+<MudText Class="mb-4">
+    @(_isEditMode ? "Dodaj nowe produkty do swojej listy." : "Wypełnij podstawowe dane, aby utworzyć nową listę.")
+</MudText>
+
+<MudForm Model="@createModel" @ref="createForm">
+    <MudCard Elevation="2">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h6">Dane Listy</MudText>
+            </CardHeaderContent>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudGrid>
+                <MudItem xs="12" sm="8">
+                    <MudTextField @bind-Value="createModel.Name"
+                                  For="@(() => createModel.Name)"
+                                  Label="Nazwa listy"
+                                  Variant="Variant.Outlined"
+                                  ReadOnly="@_isEditMode" />
+                </MudItem>
+                <MudItem xs="12" sm="4">
+                    <MudSelect T="int?" @bind-Value="createModel.DoneByUserId"
+                               For="@(() => createModel.DoneByUserId)"
+                               Label="Utworzone przez"
+                               Variant="Variant.Outlined"
+                               ReadOnly="@_isEditMode">
+                        @foreach (var user in users)
+                        {
+                            <MudSelectItem T="int?" Value="@user.Id">@user.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+            </MudGrid>
+        </MudCardContent>
+
+        @if (!_isEditMode)
+        {
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit"
+                           Variant="Variant.Filled"
+                           Color="Color.Success"
+                           Class="ml-auto"
+                           OnClick="HandleCreateListAsync">
+                    Utwórz i dodaj przedmioty
+                </MudButton>
+            </MudCardActions>
+        }
+    </MudCard>
+</MudForm>
+
+@if (_isEditMode)
+{
+    <MudText Typo="Typo.h5" Class="mt-8 mb-4">Przedmioty na liście</MudText>
+    @if (!itemsOnList.Any())
+    {
+        <MudAlert Severity="Severity.Info">Na tej liście nie ma jeszcze żadnych przedmiotów.</MudAlert>
+    }
+    else
+    {
+        <MudSimpleTable Hover="true" Dense="true" Class="mb-8">
+            <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Wartość</th>
+                    <th>Typ</th>
+                    <th>Dla kogo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in itemsOnList)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Value.ToString("C")</td>
+                        <td>@item.Type.TranslateEnum()</td>
+                        <td>@(item.DesiredBy?.Name)</td>
+                    </tr>
+                }
+            </tbody>
+        </MudSimpleTable>
+    }
+
+    <MudForm Model="@addItemModel" @ref="addItemForm" >
+        <MudCard Elevation="2">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Dodaj Nowy Przedmiot</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudGrid>
+                    <MudItem xs="12" sm="6" md="4">
+                        <MudTextField @bind-Value="addItemModel.Name"
+                                      For="@(() => addItemModel.Name)"
+                                      Label="Nazwa przedmiotu"
+                                      Variant="Variant.Outlined" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6" md="2">
+                        <MudNumericField @bind-Value="addItemModel.Value"
+                                         For="@(() => addItemModel.Value)"
+                                         Label="Wartość"
+                                         Variant="Variant.Outlined" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6" md="3">
+                        <MudSelect T="ShoppingItemType" @bind-Value="addItemModel.Type"
+                                   For="@(() => addItemModel.Type)"
+                                   Label="Typ przedmiotu"
+                                   Variant="Variant.Outlined">
+                            @foreach (ShoppingItemType type in Enum.GetValues(typeof(ShoppingItemType)))
+                            {
+                                <MudSelectItem Value="type">@type.TranslateEnum()</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+
+                    @if (addItemModel.Type == ShoppingItemType.OnePerson)
+                    {
+                        <MudItem xs="12" sm="6" md="3">
+                             <MudSelect T="int?" @bind-Value="addItemModel.DesiredByUserId"
+                                       For="@(() => addItemModel.DesiredByUserId)"
+                                       Label="Dla kogo"
+                                       Variant="Variant.Outlined"
+                                       Clearable="true">
+                                @foreach (var user in users)
+                                {
+                                    <MudSelectItem T="int?" Value="@user.Id">@user.Name</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                    }
+                </MudGrid>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit"
+                           Variant="Variant.Filled"
+                           Color="Color.Success"
+                           Class="ml-auto"
+                           OnClick="HandleAddClickAsync">
+                    Dodaj przedmiot
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudForm>
+}

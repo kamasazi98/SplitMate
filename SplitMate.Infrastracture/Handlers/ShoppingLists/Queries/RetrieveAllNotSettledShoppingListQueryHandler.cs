@@ -13,7 +13,9 @@ namespace SplitMate.Infrastracture.Handlers.ShoppingLists.Queries
 
 		public async Task<IResult<RetrieveAllNotSettledShoppingListQuery.Response>> Handle(RetrieveAllNotSettledShoppingListQuery request, CancellationToken cancellationToken)
 		{
-			var shoppingLists = await applicationDbContext.ShoppingLists.AsNoTracking().Include(x => x.User).Where(x => !x.IsSettled).ToListAsync(cancellationToken);
+			var shoppingLists = await applicationDbContext.ShoppingLists.AsNoTracking()
+				.Include(x => x.User).Include(x => x.Items)
+				.Where(x => !x.IsSettled).ToListAsync(cancellationToken);
 			var mapped = shoppingLists.Select(x => new RetrieveAllNotSettledShoppingListQuery.Response.ShoppingListItem(
 				Id: x.Id,
 				Name: x.Name,

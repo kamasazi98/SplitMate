@@ -13,7 +13,9 @@ namespace SplitMate.Infrastracture.Handlers.ShoppingLists.Queries
 
 		public async Task<IResult<RetrieveAllShoppingListQuery.Response>> Handle(RetrieveAllShoppingListQuery request, CancellationToken cancellationToken)
 		{
-			var shoppingLists = await applicationDbContext.ShoppingLists.AsNoTracking().Include(x => x.User).ToListAsync(cancellationToken);
+			var shoppingLists = await applicationDbContext.ShoppingLists.AsNoTracking()
+				.Include(x => x.User).Include(x => x.Items)
+				.ToListAsync(cancellationToken);
 			var mapped = shoppingLists.Select(x => new RetrieveAllShoppingListQuery.Response.ShoppingListItem(
 				Id: x.Id,
 				Name: x.Name,

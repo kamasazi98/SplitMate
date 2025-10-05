@@ -1,0 +1,109 @@
+﻿@page "/shopping-lists/details/{ShoppingListId:int}"
+
+@using MudBlazor
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+@if (_isLoading)
+{
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+}
+else if (_shoppingList is not null)
+{
+    <MudText Typo="Typo.h4" GutterBottom="true">Szczegóły listy zakupów</MudText>
+    
+    <MudCard Elevation="2">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h6">Podstawowe Informacje</MudText>
+            </CardHeaderContent>
+            <CardHeaderActions>
+                 <MudChip T="bool" Color="@(_shoppingList.IsSettled ? Color.Success : Color.Error)" 
+                         Variant="Variant.Text" 
+                         Text="@(_shoppingList.IsSettled ? "Rozliczona" : "Nierozliczona")" />
+            </CardHeaderActions>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudGrid>
+                <MudItem xs="12" sm="8">
+                    <MudTextField T="string"
+                                  Value="@_shoppingList.Name"
+                                  Label="Nazwa listy"
+                                  Variant="Variant.Outlined"
+                                  ReadOnly="true" />
+                </MudItem>
+                <MudItem xs="12" sm="4">
+                    <MudTextField T="string"
+                                  Value="@_shoppingList.DoneByUserName"
+                                  Label="Utworzone przez"
+                                  Variant="Variant.Outlined"
+                                  ReadOnly="true" />
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                     <MudTextField T="string"
+                                  Value="@_shoppingList.CreateDate.ToString("yyyy-MM-dd HH:mm")"
+                                  Label="Data utworzenia"
+                                  Variant="Variant.Outlined"
+                                  ReadOnly="true" />
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudNumericField T="decimal"
+                                     Value="@_shoppingList.SumValue"
+                                     Label="Łączna suma"
+                                     Variant="Variant.Outlined"
+                                     ReadOnly="true"
+                                     Format="C2" />
+                </MudItem>
+            </MudGrid>
+        </MudCardContent>
+        <MudCardActions Class="pa-4">
+             <MudButton Variant="Variant.Outlined"
+                       Color="Color.Primary"
+                       OnClick="GoBackToList">
+                Wróć do listy
+            </MudButton>
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.Edit"
+                       OnClick="GoToEdit"
+                       Class="ml-auto">
+                Edytuj
+            </MudButton>
+        </MudCardActions>
+    </MudCard>
+
+    <MudText Typo="Typo.h5" Class="mt-8 mb-4">Przedmioty na liście</MudText>
+    
+    @if (!_shoppingList.Items.Any())
+    {
+        <MudAlert Severity="Severity.Info">Na tej liście nie ma żadnych przedmiotów.</MudAlert>
+    }
+    else
+    {
+        <MudSimpleTable Hover="true" Dense="true">
+            <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Wartość</th>
+                    <th>Typ</th>
+                    <th>Dla kogo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in _shoppingList.Items)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Value.ToString("C")</td>
+                        <td>@item.Type.TranslateEnum()</td>
+                        <td>@(item.DesiredBy?.Name)</td>
+                    </tr>
+                }
+            </tbody>
+        </MudSimpleTable>
+    }
+}
+else
+{
+    <MudAlert Severity="Severity.Error">Nie znaleziono listy zakupów o podanym identyfikatorze.</MudAlert>
+}

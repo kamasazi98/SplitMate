@@ -18,11 +18,12 @@ namespace SplitMate.Infrastracture.Handlers.ShoppingLists.Commands
 		{
 			User? user = null;
 			if (request.Item.Type == ShoppingItemType.OnePerson)
-				user = await applicationDbContext.KnownUsers.FirstOrDefaultAsync(x => x.Id == request.Item.DesiredBy!.Id, cancellationToken);
+				user = await applicationDbContext.KnownUsers.FirstOrDefaultAsync(x => x.Id == request.Item.DesiredById, cancellationToken);
 
 			var spec = await shoppingListStore.Retrieve(request.ShoppingListId, cancellationToken);
 
-			spec.AddItem(new(request.Item.Value, request.Item.Name, request.Item.Type, user));
+			var addedItem = spec.AddItem(new(request.Item.Value, request.Item.Name, request.Item.Type, user));
+			await applicationDbContext.ShoppingItems.AddAsync(addedItem, cancellationToken);
 			await applicationDbContext.SaveChangesAsync(cancellationToken);
 
 			return this.Success();

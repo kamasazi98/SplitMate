@@ -18,7 +18,7 @@ namespace SplitMate.Domain.Specifications
 			Entity.CreateDate = DateTime.Now;
 			Entity.IsSettled = false;
 		}
-		public void AddItem(AddItemCommand command)
+		public ShoppingItem AddItem(AddItemCommand command)
 		{
 			command.Validate();
 
@@ -32,6 +32,7 @@ namespace SplitMate.Domain.Specifications
 			};
 
 			Entity.Items.Add(shoppingItem);
+			return shoppingItem;
 		}
 		public void ChangeItem(ChangeItemCommand command)
 		{
@@ -44,11 +45,12 @@ namespace SplitMate.Domain.Specifications
 			item.Type = command.Type;
 			item.User = command.User;
 		}
-		public void DeleteItem(DeleteItemCommand command)
+		public ShoppingItem DeleteItem(DeleteItemCommand command)
 		{
 			command.Validate(Entity);
 			var item = Entity.Items.First(y => y.Id == command.ItemId);
 			Entity.Items.Remove(item);
+			return item;
 		}
 	}
 }

@@ -30,6 +30,7 @@ namespace SplitMate.Client.Pages
 							DoneByUserName: x.DoneByUserName,
 							IsSettled: x.IsSettled
 							))];
+				StateHasChanged();
 			}
 			finally
 			{

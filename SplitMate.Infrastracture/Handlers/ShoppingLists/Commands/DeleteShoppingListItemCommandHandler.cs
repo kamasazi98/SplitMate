@@ -15,8 +15,9 @@ namespace SplitMate.Infrastracture.Handlers.ShoppingLists.Commands
 		public async Task<IResult> Handle(DeleteShoppingListItemCommand request, CancellationToken cancellationToken)
 		{
 			var spec = await shoppingListStore.Retrieve(request.ShoppingListId, cancellationToken);
-			spec.DeleteItem(new(request.ShoppingListItemId));
+			var deletedITem = spec.DeleteItem(new(request.ShoppingListItemId));
 
+			applicationDbContext.ShoppingItems.Remove(deletedITem);
 			await applicationDbContext.SaveChangesAsync(cancellationToken);
 			return this.Success();
 		}

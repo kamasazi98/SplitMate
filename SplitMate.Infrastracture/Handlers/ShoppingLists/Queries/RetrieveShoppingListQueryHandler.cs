@@ -27,6 +27,7 @@ namespace SplitMate.Infrastracture.Handlers.ShoppingLists.Queries
 				SumValue: shoppingList.SumValue,
 				CreateDate: shoppingList.CreateDate,
 				DoneByUserName: shoppingList.User.Name,
+				DoneByUserId: shoppingList.User.Id,
 				IsSettled: shoppingList.IsSettled,
 				Items: [.. shoppingList.Items.Select(x => new RetrieveShoppingListQuery.Response.ShoppingListItem(
 					Id: x.Id,

@@ -18,18 +18,8 @@ namespace SplitMate.Client.Pages
 			try
 			{
 				isLoading = true;
-
-				var response = await ShoppingListManager.RetrieveAll();
-				if (response.IsSuccess && response.Response != null)
-					shoppingLists = [.. response.Response.Shoppings
-						.Select(x => new ShoppingListViewModel(
-							Id: x.Id,
-							Name: x.Name,
-							SumValue: x.SumValue,
-							CreateDate: x.CreateDate,
-							DoneByUserName: x.DoneByUserName,
-							IsSettled: x.IsSettled
-							))];
+				await LoadData();
+				StateHasChanged();
 			}
 			finally
 			{
@@ -68,7 +58,34 @@ namespace SplitMate.Client.Pages
 
 		private void ShowDetails(int id)
 		{
-			NavigationManager.NavigateTo($"/shopping-lists/{id}");
+			NavigationManager.NavigateTo($"/shopping-lists/details/{id}");
+		}
+		private async Task Delete(int id)
+		{
+			try
+			{
+				isLoading = true;
+				await ShoppingListManager.Delete(id);
+				await LoadData();
+			}
+			finally
+			{
+				isLoading = false;
+			}
+		}
+		private async Task LoadData()
+		{
+			var response = await ShoppingListManager.RetrieveAll();
+			if (response.IsSuccess && response.Response != null)
+				shoppingLists = [.. response.Response.Shoppings
+						.Select(x => new ShoppingListViewModel(
+							Id: x.Id,
+							Name: x.Name,
+							SumValue: x.SumValue,
+							CreateDate: x.CreateDate,
+							DoneByUserName: x.DoneByUserName,
+							IsSettled: x.IsSettled
+							))];
 		}
 	}
 }
