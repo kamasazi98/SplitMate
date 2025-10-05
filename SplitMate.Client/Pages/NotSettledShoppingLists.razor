@@ -1,0 +1,57 @@
+﻿@page "/unsettled-shopping-lists"
+@inject NavigationManager NavigationManager
+
+<MudText Typo="Typo.h4" GutterBottom="true">Nierozliczone listy zakupów</MudText>
+<MudText Class="mb-4">Przeglądaj wszystkie nierozliczone jeszcze listy zakupów.</MudText>
+
+<MudTable T="ShoppingListViewModel"
+          ServerData="Reload"
+          Dense="true" Hover="true" Striped="true" @ref="MudTable">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Listy</MudText>
+        <MudSpacer />
+        <MudTextField T="string"
+                      ValueChanged="@(s => OnSearch(s))"
+                      Placeholder="Szukaj"
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search"
+                      IconSize="Size.Medium"
+                      Class="mt-0" />
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Add"
+                   OnClick="AddNewList"
+                   Class="ml-4">
+            Dodaj nową listę
+        </MudButton>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortLabel="name_field" T="ShoppingListViewModel">Nazwa</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="sum_field" T="ShoppingListViewModel">Suma</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="date_field" T="ShoppingListViewModel">Data utworzenia</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="user_field" T="ShoppingListViewModel">Utworzone przez</MudTableSortLabel></MudTh>
+        <MudTh Style="text-align:center">Akcje</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Nazwa">@context.Name</MudTd>
+        <MudTd DataLabel="Suma">@context.SumValue.ToString("C")</MudTd>
+        <MudTd DataLabel="Data utworzenia">@context.CreateDate.ToString("yyyy-MM-dd HH:mm")</MudTd>
+        <MudTd DataLabel="Utworzone przez">@context.DoneByUserName</MudTd>
+        <MudTd DataLabel="Akcje" Style="text-align:center">
+            <MudIconButton Icon="@Icons.Material.Filled.Pageview"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Size="Size.Small"
+                           OnClick="@(() => ShowDetails(context.Id))" />
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+    <LoadingContent>
+        <MudText>Ładowanie danych...</MudText>
+    </LoadingContent>
+    <NoRecordsContent>
+        <MudText>Nie znaleziono pasujących rekordów.</MudText>
+    </NoRecordsContent>
+</MudTable>

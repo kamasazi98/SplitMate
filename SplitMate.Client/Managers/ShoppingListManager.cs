@@ -12,7 +12,8 @@ namespace SplitMate.Client.Managers
 
 		public Task<ApiResult<RetrieveAllShoppingListQuery.Response>> RetrieveAll()
 			=> httpClientFactory.MainApiClient().GetAsync("/api/shoppingLists").ToApiResult<RetrieveAllShoppingListQuery.Response>();
-
+		public Task<ApiResult<RetrieveAllNotSettledShoppingListQuery.Response>> RetrieveAllNotSettled()
+			=> httpClientFactory.MainApiClient().GetAsync("/api/shoppingLists/NotSettled").ToApiResult<RetrieveAllNotSettledShoppingListQuery.Response>();
 		public Task<ApiResult<RetrieveShoppingListQuery.Response>> RetrieveAll(int shoppingListId)
 			=> httpClientFactory.MainApiClient().GetAsync($"/api/shoppingLists?shoppingListId={shoppingListId}").ToApiResult<RetrieveShoppingListQuery.Response>();
 
@@ -41,5 +42,6 @@ namespace SplitMate.Client.Managers
 		Task<ApiResult> Import(int shoppingListId, List<ImportShoppingListItemsCommand.ItemAggregate> items);
 		Task<ApiResult<RetrieveAllShoppingListQuery.Response>> RetrieveAll();
 		Task<ApiResult<RetrieveShoppingListQuery.Response>> RetrieveAll(int shoppingListId);
+		Task<ApiResult<RetrieveAllNotSettledShoppingListQuery.Response>> RetrieveAllNotSettled();
 	}
 }
